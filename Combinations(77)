@@ -1,0 +1,26 @@
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> slate = new ArrayList<>();
+        
+        helper(n, k, 1, slate, result);
+        
+        return result;
+    }
+    
+    public void helper(int max, int size, int index, List<Integer> slate, 
+                      List<List<Integer>> result ){
+        
+        if(slate.size() == size){
+            result.add(new ArrayList<>(slate));
+            return;
+        }
+        
+        for(int i=index; i<=max; i++){
+            slate.add(i);
+            helper(max, size, i+1, slate, result);
+            slate.remove(slate.size()-1);
+        }
+    }
+}
