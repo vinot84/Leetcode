@@ -1,0 +1,30 @@
+class Solution {
+    public List<String> letterCasePermutation(String s) {
+        
+        List<String> result = new ArrayList<>();
+        convert(s,0,"",result);
+        
+        return result;
+        
+    }
+    
+    public void convert(String s,int index, String soFar, List<String> result){
+        
+       if(s.length() == index){
+           result.add(soFar);
+           return;
+       }
+           
+    else{
+        char curretChar = s.charAt(index);
+        if(Character.isDigit(curretChar)){
+            convert(s, index+1,soFar+curretChar, result);
+        }else{
+            convert(s, index+1,soFar+Character.toLowerCase(curretChar), result);
+            convert(s, index+1,soFar+Character.toUpperCase(curretChar), result);
+        }
+        
+    }
+        
+    }
+}
