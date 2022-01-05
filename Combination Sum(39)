@@ -1,0 +1,35 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> slate = new ArrayList<>();
+        Arrays.sort(candidates);
+        
+        helper(candidates,0, target, slate, result);
+        
+        return result;
+    }
+    
+    public void helper(int[] candidates,int index, int target, List<Integer> slate, List<List<Integer>> result ){
+        
+        if(target<0)
+            return;
+        
+        if(target == 0){
+            result.add(new ArrayList<>(slate));
+            return;
+        }
+        
+        if(index>=candidates.length)
+            return;
+        
+        for(int i=index; i<candidates.length; i++){
+            
+            int current = candidates[i];
+            if(i>index && candidates[i-1]==current) continue;
+            slate.add(current);
+            helper(candidates,i, target-current,slate, result);
+            slate.remove(slate.size()-1);
+        }
+    }
+}
