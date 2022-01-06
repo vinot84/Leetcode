@@ -1,0 +1,24 @@
+class Solution {
+    public int getImportance(List<Employee> employees, int id) {
+        
+        Map<Integer, Employee> map = new HashMap<>();
+        for(Employee emp: employees){
+            map.put(emp.id, emp);
+        }
+        
+        Queue<Employee> queue = new LinkedList<>();
+        queue.add(map.get(id));
+        
+        int importance =0;
+        while(queue.size()>0){
+             Employee empQueue= queue.poll();
+              importance += empQueue.importance;
+              for(int subId: empQueue.subordinates)
+              {
+                  queue.add(map.get(subId));
+              }
+        }
+        
+        return importance;
+    }
+}
