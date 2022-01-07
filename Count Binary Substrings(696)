@@ -1,0 +1,23 @@
+class Solution {
+    public int countBinarySubstrings(String s) {
+        
+        int i=1;
+        int count =0;
+        int current =1;
+        int prev =0;
+        
+        while(i<s.length()){
+            
+            if(s.charAt(i)!=s.charAt(i-1)){
+                count += Math.min(current, prev);
+                prev = current;
+                current = 1;
+            }else{
+                 current++; 
+            }
+            i++;
+        }
+        return count +=Math.min(current, prev);
+        
+    }
+}
