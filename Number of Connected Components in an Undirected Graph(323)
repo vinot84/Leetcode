@@ -1,0 +1,49 @@
+class Solution {
+    public int countComponents(int n, int[][] edges) {
+        
+        // Visited array 
+        // Launch DFS and increase count
+        // Populat adjacency list
+        
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        int[] visited = new int[n];
+        int countComponents =0;
+        
+        Arrays.fill(visited, -1);
+        
+        for(int i=0; i< n; i++){
+            adj.put(i, new LinkedList<Integer>());
+        }
+        
+        for(int i=0; i<edges.length; i++){
+            adj.get(edges[i][0]).add(edges[i][1]);
+            adj.get(edges[i][1]).add(edges[i][0]);
+        }
+        
+        for(int i=0; i<n; i++){
+            if(visited[i]==-1){
+                countComponents++;
+                dfs(adj, visited,i);
+            }
+        }
+        return countComponents;
+    }
+    
+    private void dfs(Map<Integer, List<Integer>> adj, int[] visited,int startNode){
+        
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(startNode);
+        visited[startNode] = 1;
+        
+        while(!queue.isEmpty()){
+            int temp = queue.remove();
+            for(int neighbor:adj.get(temp)){
+                if(visited[neighbor] == -1){
+                    visited[neighbor] = 1;
+                    queue.add(neighbor);
+                }    
+            }
+        } 
+            
+    }
+}
