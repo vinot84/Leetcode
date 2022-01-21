@@ -1,0 +1,67 @@
+class UndergroundSystem {
+
+    
+    Map<Integer, ArrivalInfo> map;
+    Map<String, double []> averageMap;
+    
+    public UndergroundSystem() {
+        map = new HashMap<>();
+        averageMap = new HashMap<>();
+        
+    }
+    
+    public void checkIn(int id, String stationName, int t) {
+        
+        map.put(id, new ArrivalInfo(id, stationName,t));
+        
+    }
+    
+    public void checkOut(int id, String stationName, int t) {
+        
+        ArrivalInfo arrivalInfo = map.get(id);
+        String key = arrivalInfo.stationName+"_"+stationName;  
+        double[] pair = averageMap.getOrDefault(key, new double[2]);
+        int startTime = t-arrivalInfo.t;
+        pair[0] +=startTime;
+        pair[1]++;
+        averageMap.put(key, pair);
+        
+    }
+    
+    public double getAverageTime(String startStation, String endStation) {
+        
+        double[] value = averageMap.get(startStation+"_"+endStation);
+        return value[0]/value[1];
+        
+    }
+    
+    public class ArrivalInfo{
+        
+        int id;
+        String stationName;
+        int t;
+        
+        ArrivalInfo(int id, String stationName, int t){
+            this.id = id;
+            this.stationName = stationName;
+            this.t = t;
+        }
+        
+    }
+}
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem obj = new UndergroundSystem();
+ * obj.checkIn(id,stationName,t);
+ * obj.checkOut(id,stationName,t);
+ * double param_3 = obj.getAverageTime(startStation,endStation);
+ */
+
+/*
+
+Store the id, stationname& time in object
+Store the arrivalInfo against id in map
+Store the start_end stattion name aginast a double array
+where array first element is difference and second element is count
+*/
