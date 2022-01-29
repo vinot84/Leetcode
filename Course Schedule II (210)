@@ -1,0 +1,61 @@
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        int[] visiblity = new int[numCourses];
+        int[] departure = new int[visiblity.length];
+        int[] arrival = new int[visiblity.length];
+        int timestamp =0;
+        Stack<Integer> stack = new Stack<>();
+        
+        Arrays.fill(visiblity, -1);
+        Arrays.fill(departure, -1);
+        Arrays.fill(arrival, -1);
+        
+        for(int i=0; i<numCourses; i++){
+            adj.put(i, new ArrayList<>());
+        }
+        
+        for(int i=0; i<prerequisites.length; i++){
+            adj.get(prerequisites[i][0]).add(prerequisites[i][1]);
+        }
+        
+        for(int i=0; i<numCourses; i++){
+            if(visiblity[i]==-1){
+                if(dfs(adj,visiblity,i, timestamp,arrival, departure,stack))
+                    return new int[0];
+            }
+            
+        }
+        
+        int[] result = new int[stack.size()];
+        Object[] arr = stack.toArray();
+        for(int i=0; i< arr.length; i++){
+            result[i] = (int)arr[i];
+        }
+        
+        return result;
+        
+    }
+    
+    public boolean dfs( Map<Integer, List<Integer>> adj, int[] visiblity, int startNode,
+                      int timestamp, int[] arrival, int[] departure, Stack<Integer> stack){
+       
+        visiblity[startNode] = 0;
+        arrival[startNode] = timestamp++;
+        
+        for(Integer nextNode: adj.get(startNode)){
+            if(visiblity[nextNode] ==-1){
+                if(dfs(adj,visiblity,nextNode,timestamp,arrival,departure, stack))
+                    return true;
+            }else{
+                if(departure[nextNode]==-1)
+                    return true;
+            }
+        }
+        departure[startNode] = timestamp++;
+        stack.add(startNode);
+        
+        return false;
+    }
+}
