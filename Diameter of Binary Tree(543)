@@ -1,0 +1,23 @@
+class Solution {
+    private int maxDiameter =0;
+    
+    public int diameterOfBinaryTree(TreeNode root) {
+        maxDiameter =0;
+        
+        if(root == null)
+            return maxDiameter;
+        getMaxDiameterHelper(root);
+        return maxDiameter;
+    }
+    public int getMaxDiameterHelper(TreeNode node){
+        
+        if(node.left ==null && node.right == null){
+            return 0;
+        }
+        int lmax = (node.left!=null)?getMaxDiameterHelper(node.left)+1:0;
+        int rmax = (node.right!=null)?getMaxDiameterHelper(node.right)+1:0;
+        
+        maxDiameter = maxDiameter<(lmax+rmax) ? lmax+rmax:maxDiameter;
+        return Math.max(lmax, rmax);
+    }
+}
