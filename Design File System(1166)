@@ -1,0 +1,28 @@
+class FileSystem {
+
+    Map<String, Integer> map;
+    public FileSystem() {
+        this.map = new HashMap<>();
+    }
+    
+    public boolean createPath(String path, int value) {
+        
+        if(path.isEmpty() || (path.length() == 1 && path.equals("/")) ||
+          this.map.containsKey(path)){
+            return false;
+        }
+        
+        int deliIndex = path.lastIndexOf("/");
+        String parent = path.substring(0,deliIndex);
+        
+        if(parent.length()>1 && !this.map.containsKey(parent)){
+            return false;
+        }
+        this.map.put(path, value);
+        return true;
+    }
+    
+    public int get(String path) {
+        return this.map.getOrDefault(path, -1);
+    }
+}
