@@ -1,0 +1,51 @@
+class Solution {
+    public int[] rearrangeBarcodes(int[] barcodes) {
+        
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int barcode:barcodes){
+            if(map.containsKey(barcode)){
+                map.put(barcode,map.get(barcode)+1);
+            }else{
+                map.put(barcode,1);
+            }
+        }
+        
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a,b)->map.get(b)-map.get(a));
+        maxHeap.addAll(map.keySet());
+        
+        int[] result = new int[barcodes.length];
+        int count =0;
+        while(!maxHeap.isEmpty()){
+            int first = maxHeap.remove();
+            result[count++] = first;
+            if(maxHeap.size()==0)
+                break;
+            
+            int second = maxHeap.remove();
+            result[count++] = second;
+            modify(map,maxHeap,first);
+            modify(map,maxHeap,second);
+        }
+        return result;
+        
+    }
+    
+    public void modify(Map<Integer, Integer> map, PriorityQueue<Integer> maxHeap,
+                      int number) 
+    {
+    
+        if(map.get(number)==1){
+            map.remove(number);
+        }else{
+            map.put(number, map.get(number)-1);
+            maxHeap.add(number);
+        }
+        
+    }
+}
+
+// Approach
+// 1. Create a map with key and count
+// 2. Add it to a priority queue
+// 3. Pick from the maxheap priority queue and reduce the count
+// 4. Iterate and fill the array untill the queue size is 0
