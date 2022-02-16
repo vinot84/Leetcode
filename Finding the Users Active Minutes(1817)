@@ -1,0 +1,21 @@
+class Solution {
+    public int[] findingUsersActiveMinutes(int[][] logs, int k) {
+        
+        // Adjecency Metrix
+        Map<Integer, Set<Integer>> adj = new HashMap<>();
+        for(int[] current: logs){
+           
+            if(!adj.containsKey(current[0])){
+                adj.put(current[0],new HashSet<Integer>());
+            }
+            adj.get(current[0]).add(current[1]);
+        }
+        int[] result = new int[k];
+        
+        for(Map.Entry<Integer, Set<Integer>> entry:adj.entrySet()){
+            Set<Integer> set = entry.getValue();
+            result[set.size()-1]++;
+        }
+        return result;
+    }
+}  
