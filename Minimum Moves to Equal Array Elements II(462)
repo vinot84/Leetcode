@@ -1,0 +1,24 @@
+class Solution {
+    public int minMoves2(int[] nums) {
+        
+        if(nums == null || nums.length ==0)
+            return 0;
+        
+        Arrays.sort(nums);
+        int length = nums.length;
+        int mid =0;
+        if(length%2==1)
+            mid = nums[length/2];
+        else{
+            mid = (nums[length/2]+nums[length/2-1])/2;
+        }
+            
+        int result =0;
+        
+        for(int i=0;i<length;i++){
+          result += Math.abs(mid-nums[i]);
+        }
+        return result;     
+        
+    }
+}
