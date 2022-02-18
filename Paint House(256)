@@ -1,0 +1,46 @@
+class Solution {
+    public int minCost(int[][] costs) {
+       
+        int[][] mincosts = new int[costs.length][costs[0].length];
+        int red =0;
+        int blue =1;
+        int green =2;
+        
+        
+        for(int house=0; house<costs.length; house++){
+            
+            mincosts[house][red]= costs[house][red]+
+                (house>=1?Math.min(mincosts[house-1][blue],
+                        mincosts[house-1][green]):0);
+            
+            mincosts[house][blue]= costs[house][blue]+
+                (house>=1? Math.min(mincosts[house-1][green],
+                        mincosts[house-1][red]):0);
+            
+            mincosts[house][green]= costs[house][green]+
+                (house>=1?Math.min(mincosts[house-1][blue],
+                        mincosts[house-1][red]):0);
+            
+            
+        }
+        return Math.min(mincosts[costs.length-1][green], Math.min(mincosts[costs.length-1][red],mincosts[costs.length-1][blue]));        
+       
+    }
+}
+
+// Smallest number from each array
+// no two position should be adjacecent
+// Dynamic Programming??
+
+// [17,2,17]
+// [16,16,5]
+// [14,3,19]
+// 1 -> red
+// 2-> blue
+// 3 -> green
+
+//       red, blue, green
+// ______________________
+// h1 |  17 | 16   | 14
+// h2 |  2  | 16   | 3
+// h3 |  17 | 5    | 19
