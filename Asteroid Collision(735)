@@ -1,0 +1,45 @@
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        
+        if(asteroids == null && asteroids.length ==0)
+            return new int[0];
+        Stack<Integer> resultStack = collision(asteroids);
+        return stackToArray(resultStack);
+    }
+    
+    public Stack<Integer> collision(int[] asteroids){
+        
+        Stack<Integer> stack = new Stack<>();
+        boolean recursion = false;
+         for(int i:asteroids){
+                if(i>0){
+                     stack.push(i);          
+                }else if(!stack.isEmpty() && stack.peek()>0){
+                    int queueTop =stack.pop();
+                    if(Math.abs(i)> Math.abs(queueTop)){
+                       stack.push(i);
+                        recursion = true;
+                    }else if(Math.abs(i) == Math.abs(queueTop)){
+                        //ignore
+                    }
+                    else{
+                        stack.push(queueTop); 
+                    }
+                }else{
+                    stack.push(i);
+                }
+         }
+        if(recursion)
+            return collision(stackToArray(stack));
+        
+        return stack;
+    }
+    
+    public static int[] stackToArray(Stack<Integer> stack){
+         int[] result = new int[stack.size()];
+         for(int i=0; i<stack.size();i++){
+             result[i] = stack.get(i);
+         }
+        return result;
+    }
+}
